@@ -1,4 +1,4 @@
-module Middlecore
+module Middleman::RoylDev
   VERSION: String
   # See the writing guide of rbs: https://github.com/ruby/rbs#guides
 end

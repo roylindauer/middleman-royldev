@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    middlecore (0.1.0)
+    middleman-royldev (0.1.0)
       activesupport (~> 7.0)
       builder (~> 3.2)
       execjs (~> 2.8.1)
@@ -16,8 +16,8 @@ PATH
       middleman-syntax (~> 3)
       nokogiri (~> 1.13)
       redcarpet (~> 3.5)
-      rouge
-      thor
+      rouge (~> 3.30)
+      thor (~> 1.2)
 
 GEM
   remote: https://rubygems.org/
@@ -235,10 +235,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  middlecore!
+  middleman-royldev!
   rake (~> 13.0)
   rspec (~> 3.0)
   standard (~> 1.3)
 
 BUNDLED WITH
-   2.5.10
+   2.5.20

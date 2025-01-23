@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in middlecore.gemspec
+# Specify your gem's dependencies in middleman-royldev.gemspec
 gemspec
 
 gem "rake", "~> 13.0"
