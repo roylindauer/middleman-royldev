@@ -24,7 +24,7 @@ activate :royldev do | royldev |
   royldev.name = "websitename"
   
   royldev.markdown_engine = :redcarpet
-  royldev_markdown_config = {
+  royldev.markdown_config = {
     fenced_code_blocks: true,
     smartypants: true,
     autolink: true,
