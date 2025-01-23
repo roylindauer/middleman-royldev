@@ -1,0 +1,12 @@
+<title><%= [current_page.data.title, config[:site_name]].reject{ |a| a.nil? }.join(" | ")  %></title>
+
+<% if current_page.data.meta_description || config[:site_description] %>
+  <meta name="description" content="<%= current_page.data.meta_description || config[:site_description] %>">
+<% end %>
+
+<% if current_page.data.meta_keywords || config[:site_keywords] %>
+  <meta name="keywords" content="<%= current_page.data.meta_keywords || config[:site_keywords] %>">
+<% end %>
+
+<link type="text/plain" rel="author" href="//humans.txt" />
+<link rel="alternate" type="application/atom+xml" title="RSS" href="//feed.xml" />

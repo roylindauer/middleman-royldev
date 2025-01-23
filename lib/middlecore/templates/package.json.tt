@@ -1,0 +1,11 @@
+{
+    "devDependencies": {
+      "@tailwindcss/typography": "^0.5.13",
+      "tailwindcss": "^3.4.3"
+    },
+    "scripts": {
+      "dev": "npx tailwindcss -i source/assets/stylesheets/site.scss -o ./source/assets/stylesheets/site.css --watch --minify",
+      "build": "npx tailwindcss -i source/assets/stylesheets/site.scss -o ./source/assets/stylesheets/site.css --minify"
+    }
+}
+
