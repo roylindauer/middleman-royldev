@@ -1,24 +1,105 @@
 # ROYL Development Middleman Common Configuration
 
-TODO: Delete this and the text below, and describe your gem
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/middlecore`. To experiment with that code, run `bin/console` for an interactive prompt.
+A set of common configurations for Middleman.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+Add this line to your Gemfile:
 
-Install the gem and add to the application's Gemfile by executing:
+```ruby
+gem 'middleman-royldev', git: "https://github.com/roylindauer/middleman-royldev.git"
+```
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+then run `bundle`
 
-If bundler is not being used to manage dependencies, install the gem by executing:
-
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
 
 ## Usage
 
-TODO: Write usage instructions here
+Generate a new site as per the Middleman instructions. Then add the following to config.rb:
+
+```ruby
+require 'middleman-royldev'
+
+activate :royldev do | royldev |
+  royldev.name = "websitename"
+  
+  royldev.markdown_engine = :redcarpet
+  royldev_markdown_config = {
+    fenced_code_blocks: true,
+    smartypants: true,
+    autolink: true,
+    strikethrough: true,
+    highlight: true,
+    footnotes: true
+  }
+
+  royldev.blog_config = {
+    sources: "content/{year}/{month}/{day}/{title}.html",
+    layout: "post",
+  }
+
+  royldev.minify_html_config = {
+    remove_comments: true
+  }
+end
+```
+
+### Defaults 
+
+* Syntax highlighting is automatically enabled 
+* Assets are organized like rails:
+  * `assets/fonts`
+  * `assets/images`
+  * `assets/javascripts`
+  * `assets/stylesheets`
+* HTML minification is enabled
+* Live reload is enabled for development
+* GZipped assets are created during build
+
+
+This package includes a default feed and sitemap xml templates. 
+
+To use them create `feed.xml.builder` in your source directory with the contents: 
+
+```ruby
+xml.instruct!
+xml << roydev_partial("feed.xml")
+```
+
+and `sitemap.xml.builder` 
+
+```ruby
+xml.instruct!
+xml << royldev_partial("sitemap.xml")
+```
+
+### Helpers
+
+**seo_og_tags** Render Open Graph Tags
+
+Pass in an object containing the tags and values you want.
+
+By default will render 
+
+* `og:url` from the current page url 
+* `og:type` as "website"
+* `og:description` if `site_description` is defined in the site config 
+* `og:keywords` if `site_keywords` is defined in the site config 
+* `og:image` if `og_image` is defined in the site config 
+
+```ruby
+<%= seo_og_tags og_data: current_page&.data&.open_graph_tags %>
+```
+
+**seo_meta_tags** Render common meta tags 
+
+* title 
+* description 
+* keywords 
+* link to humans.txt 
+* link to RSS feed 
+
+**inline_svg** render an svg from a file under `assets/images/svgs`
 
 ## Development
 
@@ -28,7 +109,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/middlecore. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/middlecore/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/roylindauer/middleman-royldev. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/roylindauer/middleman-royldev/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -36,4 +117,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Middlecore project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/middlecore/blob/main/CODE_OF_CONDUCT.md).
+Everyone interacting in the `middleman-royldev` project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/roylindauer/middleman-royldev/blob/main/CODE_OF_CONDUCT.md).
