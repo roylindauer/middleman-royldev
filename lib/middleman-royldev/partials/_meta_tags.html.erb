@@ -28,6 +28,6 @@
 <% if locals[:image].present? %>
   <meta property="og:image" content="<%= image %>" />
 <% end %>
-<meta property="og:url" content="<%= URI.join(config[:host], current_page.url) %>" />
+<meta property="og:url" content="<%= current_page.url %>" />
 <meta property="og:type" content="website" />
 
