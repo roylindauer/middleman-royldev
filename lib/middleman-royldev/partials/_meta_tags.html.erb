@@ -1,12 +1,33 @@
-<title><%= [current_page.data.title, config[:site_name]].reject{ |a| a.nil? }.join(" | ")  %></title>
-
-<% if current_page.data.meta_description || config[:site_description] %>
-  <meta name="description" content="<%= current_page.data.meta_description || config[:site_description] %>">
+<!-- Seo Metatags -->
+<% if locals[:description].present? %>
+  <meta name="description" content="<%= description %>">
+<% end %>
+<% if locals[:keywords].present? %>
+  <meta name="keywords" content="<%= keywords %>">
+<% end %>
+<% if locals[:show_humans] %>
+  <link type="text/plain" rel="author" href="//humans.txt" />
+<% end %>
+<% if locals[:show_feed] %>
+  <link rel="alternate" type="application/atom+xml" title="RSS" href="//feed.xml" />
+<% end %>
+<% if locals[:fediverse_creator].present? %>
+  <meta name="fediverse:creator" content="<%= fediverse_creator %>" />
 <% end %>
 
-<% if current_page.data.meta_keywords || config[:site_keywords] %>
-  <meta name="keywords" content="<%= current_page.data.meta_keywords || config[:site_keywords] %>">
+<!-- OpenGraph Tags -->
+<% if locals[:title].present? %>
+  <meta property="og:title" content="<%= title %>" />
 <% end %>
+<% if locals[:description].present? %>
+  <meta property="og:description" content="<%= description %>" />
+<% end %>
+<% if locals[:keywords].present? %>
+  <meta property="og:keywords" content="<%= keywords %>" />
+<% end %>
+<% if locals[:image].present? %>
+  <meta property="og:image" content="<%= image %>" />
+<% end %>
+<meta property="og:url" content="<%= URI.join(config[:host], current_page.url) %>" />
+<meta property="og:type" content="website" />
 
-<link type="text/plain" rel="author" href="//humans.txt" />
-<link rel="alternate" type="application/atom+xml" title="RSS" href="//feed.xml" />

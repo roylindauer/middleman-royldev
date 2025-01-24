@@ -133,24 +133,13 @@ module Middleman
         partial name.to_s, layout: false
       end
 
-      def seo_og_tags(og_data: {})
-        og_data = {} if og_data.nil?
-        og_data[:url] = URI.join(config[:host], current_page.url)
-        og_data[:type] = "website" unless og_data[:type].present?
-        og_data[:description] = config[:site_description] unless og_data[:description].present?
-        og_data[:keywords] = config[:site_keywords] unless og_data[:keywords].present?
-        og_data[:image] = url_for(URI.join(config[:host], image_path(config[:og_image]))) unless og_data[:image].present?
-        o = []
-        unless og_data.empty?
-          og_data.each do | k, v |
-            o << tag(:meta, property: "og:#{k}", content: v)
-          end
-          o.join("\n")
-        end
-      end
+      def seo_meta(variables = {})
+        variables = {
+          show_humans: false,
+          show_feed: false,
+        }.merge(variables).dup
 
-      def seo_meta_tags
-        royldev_partial "meta_tags"
+        partial "../partials/meta_tags", locals: variables 
       end
 
       #
