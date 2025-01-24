@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    middleman-royldev (0.1.0)
+    middleman-royldev (0.1.1)
       activesupport (~> 7.0)
       builder (~> 3.2)
       execjs (~> 2.8.1)

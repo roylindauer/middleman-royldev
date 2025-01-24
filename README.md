@@ -75,31 +75,45 @@ xml << royldev_partial("sitemap.xml")
 
 ### Helpers
 
-**seo_og_tags** Render Open Graph Tags
+`#seo_meta`
 
-Pass in an object containing the tags and values you want.
-
-By default will render 
-
-* `og:url` from the current page url 
-* `og:type` as "website"
-* `og:description` if `site_description` is defined in the site config 
-* `og:keywords` if `site_keywords` is defined in the site config 
-* `og:image` if `og_image` is defined in the site config 
+Render common seo meta tags and links. This will create open graph tags, social tags, meta tags, and links to feed and humans files.
 
 ```ruby
-<%= seo_og_tags og_data: current_page&.data&.open_graph_tags %>
+seo_meta({
+  title: current_page.data.seo_title || current_page.data.title, 
+  description: current_page.data.seo_description || config[:site_description],
+  keywords: current_page.data.seo_keywords || config[:site_keywords],
+  show_humans: true,
+  show_feed: true,
+  fediverse_creator: "@r1y@ruby.social",
+  image: absolute_url(image_path(config[:og_image])),
+})
 ```
 
-**seo_meta_tags** Render common meta tags 
+`#inline_svg`
 
-* title 
-* description 
-* keywords 
-* link to humans.txt 
-* link to RSS feed 
+Render an svg from a file under `assets/images/svgs`
 
-**inline_svg** render an svg from a file under `assets/images/svgs`
+eg we have an svg called `logo.svg`:
+
+```ruby
+inline_svg "logo", class: "", width: "100%", height: "100%"
+```
+
+`#absolute_url`
+
+Returns a full absolute URL. Define `config[:site_url]` in `config.rb`. Site url defaults to dev url `http://localhost:4567`
+
+```ruby
+# config.rb
+configure :build do
+  config[:site_url] = "https://www.example.org"
+end
+
+# in your templates
+absolute_url(image_path(config[:og_image])) # returns eg: https://www.example.org/assets/images/og_image.png
+```
 
 ## Development
 

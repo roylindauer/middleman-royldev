@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
-require "logger"
-require "middleman-core"
-require "middleman-blog"
-require "middleman-syntax"
-require "middleman-livereload"
-require "middleman-minify-html"
-require "middleman-imageoptim"
-require "redcarpet"
+require 'logger'
+require 'middleman-core'
+require 'middleman-blog'
+require 'middleman-syntax'
+require 'middleman-livereload'
+require 'middleman-minify-html'
+require 'middleman-imageoptim'
+require 'redcarpet'
 
 module Middleman
   class RoylDevExtension < ::Middleman::Extension
-    option :name, nil, "The name of the package (e.g. 'consul')"
-    option :version, nil, "The version of the package (e.g. 0.1.0)"
-    option :markdown_engine, :redcarpet, "Markdown engine to use"
+    option :name, nil, "The name of the package (e.g. 'roycom')"
+    option :version, nil, 'The version of the package (e.g. 0.1.0)'
+    option :markdown_engine, :redcarpet, 'Markdown engine to use'
 
     option :markdown_config, {
       fenced_code_blocks: true,
@@ -22,7 +22,7 @@ module Middleman
       strikethrough: true,
       highlight: true,
       footnotes: true
-    }, "Default markdown configuration"
+    }, 'Default markdown configuration'
 
     option :imageoptim_config, {
       manifest: true,
@@ -33,24 +33,24 @@ module Middleman
       image_extensions: %w[.png .jpg .gif .svg],
       advpng: {level: 4},
       gifsicle: {interlace: false},
-      jpegoptim: {strip: ["all"], max_quality: 65, allow_lossy: true},
+      jpegoptim: {strip: ['all'], max_quality: 65, allow_lossy: true},
       jpegtran: {copy_chunks: false, progressive: true, jpegrescan: true},
       optipng: {level: 6, interlace: false},
-      pngcrush: {chunks: ["alla"], fix: false, brute: false},
+      pngcrush: {chunks: ['alla'], fix: false, brute: false},
       pngout: false,
       svgo: {}
-    }, "Default imageoptim configuration"
+    }, 'Default imageoptim configuration'
 
     option :minify_html_config, {
       remove_comments: true
-    }, "Default minify_html configuration"
+    }, 'Default minify_html configuration'
 
     option :blog_config, {
-      permalink: "{year}/{month}/{day}/{title}.html",
-      sources: "blog/{year}/{month}/{day}/{title}.html",
-      layout: "blog_layout",
-      default_extension: ".md"
-    }, "Default blog configuration"
+      permalink: '{year}/{month}/{day}/{title}.html',
+      sources: 'blog/{year}/{month}/{day}/{title}.html',
+      layout: 'blog_layout',
+      default_extension: '.md'
+    }, 'Default blog configuration'
 
     def initialize(app, options_hash = {}, &block)
       super
@@ -59,23 +59,23 @@ module Middleman
       extension_options = options
 
       # Organize assets like Rails
-      app.config[:css_dir] = "assets/stylesheets"
-      app.config[:js_dir] = "assets/javascripts"
-      app.config[:images_dir] = "assets/images"
-      app.config[:fonts_dir] = "assets/fonts"
+      app.config[:css_dir] = 'assets/stylesheets'
+      app.config[:js_dir] = 'assets/javascripts'
+      app.config[:images_dir] = 'assets/images'
+      app.config[:fonts_dir] = 'assets/fonts'
 
       # Add gem's partials directory to Middleman's load paths
       app.files.watch :source,
-        path: File.expand_path("../partials", __FILE__),
-        prefix: "partials"
+                      path: File.expand_path('partials', __dir__),
+                      prefix: 'partials'
 
       # Register the partials directory
-      app.config[:partials_dir] = File.expand_path("../partials", __FILE__)
+      app.config[:partials_dir] = File.expand_path('partials', __dir__)
 
       # Add gem's layouts directory to Middleman's load paths
-      app.files.watch :source,
-        path: File.expand_path("../templates/layouts", __dir__),
-        prefix: "layouts"
+      # app.files.watch :source,
+      #                 path: File.expand_path('../templates/layouts', __dir__),
+      #                 prefix: 'layouts'
 
       # Set the markdown engine
       app.config[:markdown_engine] = extension_options.markdown_engine
@@ -94,7 +94,7 @@ module Middleman
       # Configure the development-specific environment
       app.configure :development do
         # Reload the browser automatically whenever files change
-        require "middleman-livereload"
+        require 'middleman-livereload'
         activate :livereload
         activate :syntax
       end
@@ -117,13 +117,13 @@ module Middleman
       # Common page configurations
       app.sitemap.resources.each do |resource|
         # Set the layout to false for common file types
-        if resource.source_file && (
+        next unless resource.source_file && (
           resource.source_file.match?(/\.(xml|json|txt)$/) ||
           resource.source_file.match?(/humans\.txt/) ||
           resource.source_file.match?(/feed\.xml/)
         )
-          resource.options[:layout] = false
-        end
+
+        resource.options[:layout] = false
       end
     end
 
@@ -131,17 +131,17 @@ module Middleman
 
       # Return a full absolute url.
       def absolute_url(path)
-        site_url = config[:site_url] || "http://localhost:4567"
+        site_url = config[:site_url] || 'http://localhost:4567'
 
         # Ensure the path starts with a slash and doesn't double slash
-        path = "/#{path}" unless path.start_with?("/")
-        path = path.squeeze("/")
+        path = "/#{path}" unless path.start_with?('/')
+        path = path.squeeze('/')
 
         # Combine the site URL with the path
         "#{site_url}#{path}"
       end
 
-      def button(url, additional_classes: "", &block)
+      def button(url, additional_classes: '', &block)
         link_to url, class: "button #{additional_classes}", &block
       end
 
@@ -149,13 +149,14 @@ module Middleman
         partial name.to_s, layout: false
       end
 
+      # Render seo meta tags
       def seo_meta(variables = {})
         variables = {
           show_humans: false,
           show_feed: false,
         }.merge(variables).dup
 
-        partial "../partials/meta_tags", locals: variables 
+        partial '../partials/meta_tags', locals: variables
       end
 
       #
@@ -168,24 +169,24 @@ module Middleman
       # @return [String]
       #
       def inline_svg(filename, options = {})
-        filepath = File.join(app.root, "source", config[:images_dir], "svg/#{filename}.svg")
+        filepath = File.join(app.root, 'source', config[:images_dir], "svg/#{filename}.svg")
 
         # If the file wasn't found, embed error SVG
         if File.exist?(filepath)
           file = File.read(filepath)
           doc = Nokogiri::HTML::DocumentFragment.parse(file)
-          svg = doc.at_css("svg")
+          svg = doc.at_css('svg')
 
           if options[:class].present?
-            svg["class"] = options[:class]
+            svg['class'] = options[:class]
           end
 
           if options[:width].present?
-            svg["width"] = options[:width]
+            svg['width'] = options[:width]
           end
 
           if options[:height].present?
-            svg["height"] = options[:height]
+            svg['height'] = options[:height]
           end
 
           doc
