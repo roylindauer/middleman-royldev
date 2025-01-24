@@ -14,6 +14,7 @@ module Middleman
     option :name, nil, "The name of the package (e.g. 'roycom')"
     option :version, nil, 'The version of the package (e.g. 0.1.0)'
     option :markdown_engine, :redcarpet, 'Markdown engine to use'
+    option :enable_image_optimization, false, 'Enable/Disable image optimization'
 
     option :markdown_config, {
       fenced_code_blocks: true,
@@ -109,7 +110,7 @@ module Middleman
         app.activate :asset_hash
         app.activate :gzip, exts: %w[.css .htm .html .js .svg .xhtml]
         app.activate :minify_html, extension_options.minify_html_config
-        app.activate :imageoptim, extension_options.imageoptim_config
+        app.activate :imageoptim, extension_options.imageoptim_config if extension_options.enable_image_optimization
       end
     end
 
