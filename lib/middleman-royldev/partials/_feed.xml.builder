@@ -1,10 +1,10 @@
 xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
-  site_url = config.host
+  site_url = config.site_url
   xml.title config.site_name
   xml.subtitle config.site_description
-  xml.id URI.join(site_url, blog.options.prefix.to_s)
+  xml.id absolute_url(blog.options.prefix.to_s)
   xml.link "href" => site_url 
-  xml.link "href" => URI.join(site_url, 'feed.xml'), "rel" => "self"
+  xml.link "href" => absolute_url('feed.xml'), "rel" => "self"
   xml.updated(blog.articles.first.date.to_time.iso8601) unless blog.articles.empty?
   xml.author { xml.name config.author_name; xml.email config.author_email }
 
