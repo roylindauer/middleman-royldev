@@ -87,6 +87,9 @@ module Middleman
       # Set the latest version
       app.config[:latest_version] = options.version
 
+      # We always want relative links
+      app.config[:relative_links] = true
+
       # Common extensions
       # Configure the development-specific environment
       app.configure :development do
@@ -125,6 +128,19 @@ module Middleman
     end
 
     helpers do
+
+      # Return a full absolute url.
+      def absolute_url(path)
+        site_url = config[:site_url] || "http://localhost:4567"
+
+        # Ensure the path starts with a slash and doesn't double slash
+        path = "/#{path}" unless path.start_with?("/")
+        path = path.squeeze("/")
+
+        # Combine the site URL with the path
+        "#{site_url}#{path}"
+      end
+
       def button(url, additional_classes: "", &block)
         link_to url, class: "button #{additional_classes}", &block
       end
