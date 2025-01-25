@@ -53,6 +53,8 @@ module Middleman
       default_extension: '.md'
     }, 'Default blog configuration'
 
+    option :livereload_config, {}, 'Default livereload configuration'
+
     def initialize(app, options_hash = {}, &block)
       super
 
@@ -96,7 +98,7 @@ module Middleman
       app.configure :development do
         # Reload the browser automatically whenever files change
         require 'middleman-livereload'
-        activate :livereload
+        activate :livereload, extension_options.livereload_config
         activate :syntax
       end
 
