@@ -15,6 +15,7 @@ module Middleman
     option :version, nil, 'The version of the package (e.g. 0.1.0)'
     option :markdown_engine, :redcarpet, 'Markdown engine to use'
     option :enable_image_optimization, false, 'Enable/Disable image optimization'
+    option :directory_indexes, false, 'Enable/Disable directory indexes'
 
     option :markdown_config, {
       fenced_code_blocks: true,
@@ -92,6 +93,9 @@ module Middleman
 
       # We always want relative links
       app.config[:relative_links] = true
+
+      # Set the directory indexes
+      app.config[:directory_indexes] = extension_options.directory_indexes
 
       # Common extensions
       # Configure the development-specific environment
