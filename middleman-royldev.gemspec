@@ -39,7 +39,7 @@ Gem::Specification.new do |spec|
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 
-  spec.add_dependency "middleman", "~> 4.5.1"
+  spec.add_dependency "middleman", "~> 4.6"
   spec.add_dependency "middleman-livereload", "~> 3"
   spec.add_dependency "middleman-syntax", "~> 3"
   spec.add_dependency "middleman-minify-html", "~> 3"
